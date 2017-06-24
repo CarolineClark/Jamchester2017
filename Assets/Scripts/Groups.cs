@@ -10,12 +10,14 @@ public class Groups : MonoBehaviour {
     private float speedOfFalling = 3.0f;
     private GameObject triggerColliders;
     private readonly string triggerChild = "TriggerColliders";
+    private Rigidbody rb;
 
     void Start() {
         Debug.Log("starting");
         lastFall = Time.time;
         spawner = FindObjectOfType<Spawner>();
         triggerColliders = transform.Find(triggerChild).gameObject;
+        rb = GetComponent<Rigidbody>();
     }
 
     void Update() {
@@ -26,6 +28,7 @@ public class Groups : MonoBehaviour {
         } else if (Input.GetKeyDown(KeyCode.UpArrow)) {
             transform.Rotate(0, 0, -90);
         } else if (hitGround) {
+            rb.isKinematic = true;
             spawner.SpawnNext();
             MoveTriggerCollidersUp();
             enabled = false;
@@ -35,7 +38,9 @@ public class Groups : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision)
     {
-        hitGround = true;
+        if (collision.gameObject.tag != Constants.backgroundTag) {
+            hitGround = true;
+        }
     }
 
     void MoveTriggerCollidersUp() {
