@@ -13,7 +13,7 @@ public class Spawner : MonoBehaviour {
     private int currentLevel;
 
     void Start() {
-        EventManager.StartListening(Constants.tetrisEvent, StartTetris);
+        EventManager.StartListening(Constants.cameraWatchingTetrisEvent, StartTetris);
         currentIndex = 0;
         currentLevel = -1;
         groups = new GameObject[][]{group1, group2, group3};
@@ -21,7 +21,6 @@ public class Spawner : MonoBehaviour {
     }
 
     public void SpawnNext() {
-        Debug.Log("spawn next hit");
         if (currentLevel == -1) {
             Debug.LogError("spawner level not set");
             return;
@@ -40,15 +39,9 @@ public class Spawner : MonoBehaviour {
     void StartTetris(Hashtable h) {
         currentIndex = 0;
         currentLevel = TetrisLevelMessage.GetLevelFromHashtable(h);
-        if (instantiatedCubes[currentLevel - 1] != null) {
-            foreach(GameObject g in instantiatedCubes[currentLevel - 1]) {
-                Destroy(g);
-            }
-        }
-        
+        RestartTetris(currentLevel);
         instantiatedCubes[currentLevel - 1] = new GameObject[NumberInGroup()];
         transform.position = locations[currentLevel - 1].transform.position;
-        // spawn first block
         SpawnNext();
     }
 
@@ -56,7 +49,11 @@ public class Spawner : MonoBehaviour {
         return groups[currentLevel - 1].Length;
     }
 
-    void RestartTetris() {
-        // TODO: wipe blocks and start again.
+    void RestartTetris(int level) {
+        if (instantiatedCubes[currentLevel - 1] != null) {
+            foreach(GameObject g in instantiatedCubes[level - 1]) {
+                Destroy(g);
+            }
+        }
     }
 }

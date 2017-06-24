@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour {
-	private enum Mode {followPlayer, tetris};
+	private enum Mode {followPlayer, tetris, transitionToPlayer, transitionToTetris};
 	private Mode currentMode;
 	public GameObject[] tetrisLocations;
 	private GameObject player;
 	private Vector3 offset;
+	private float transitionStartTime;
+	private float timeToTransitionToTetris = 2;
+	private float timeToTransitionToPlayer = 3;
+	private Vector3 endPosition;
+	int currentLevel;
 
 	void Start () {
 		EventManager.StartListening(Constants.tetrisEvent, TetrisMode);	
@@ -20,6 +25,22 @@ public class CameraController : MonoBehaviour {
 	void LateUpdate () {
 		if (currentMode == Mode.followPlayer) {
 			transform.position = GetCameraPositionInPlayerMode();
+		} else if (currentMode == Mode.transitionToTetris) {
+			float progress = (Time.time - transitionStartTime)/timeToTransitionToTetris;
+			if (progress < 1) {
+				transform.position = Vector3.Lerp(transform.position, endPosition, (Time.time - transitionStartTime)/timeToTransitionToTetris);
+			} else {
+				currentMode = Mode.tetris;
+				EventManager.TriggerEvent(Constants.cameraWatchingTetrisEvent, TetrisLevelMessage.CreateHashtable(currentLevel));
+			}
+		} else if (currentMode == Mode.transitionToPlayer) {
+			float progress = (Time.time - transitionStartTime)/timeToTransitionToTetris;
+			if (progress < 1) {
+				transform.position = Vector3.Lerp(transform.position, endPosition, (Time.time - transitionStartTime)/timeToTransitionToPlayer);
+			} else {
+				currentMode = Mode.followPlayer;
+				EventManager.TriggerEvent(Constants.cameraFollowingPlayerEvent);
+			}
 		}
 	}
 
@@ -28,23 +49,23 @@ public class CameraController : MonoBehaviour {
 	}
 
 	void TetrisMode(Hashtable h) {
-		currentMode = Mode.tetris;
-		// get level, and go to appropriate camera tetris point.
-		int level = TetrisLevelMessage.GetLevelFromHashtable(h);
-		Debug.Log("level = " + level);
+		currentMode = Mode.transitionToTetris;
+		transitionStartTime = Time.time;
+		currentLevel = TetrisLevelMessage.GetLevelFromHashtable(h);
 
-		if (level == -1) {
+		if (currentLevel == -1) {
 			Debug.LogError("no location specified!");
 		}
-		// this should change to lerp.
-		if (level > tetrisLocations.Length) {
+		if (currentLevel > tetrisLocations.Length) {
 			Debug.LogError("not enough tetris locations specified");
 		}
-		transform.position = tetrisLocations[level-1].transform.position;
+		// TODO lerp into tetris mode
+		endPosition = tetrisLocations[currentLevel-1].transform.position;
 	}
 
 	void PlayerMode(Hashtable h) {
-		currentMode = Mode.followPlayer;
-		// lerp camera position to GetCameraPositionInPlayerMode()
+		currentMode = Mode.transitionToPlayer;
+		endPosition = GetCameraPositionInPlayerMode();
+		transitionStartTime = Time.time;
 	}
 }

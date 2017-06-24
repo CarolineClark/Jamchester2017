@@ -4,6 +4,8 @@ public class Constants {
     // events
     public static readonly string tetrisEvent = "tetris-event";
     public static readonly string platformerEvent = "platformer-event";
+    public static readonly string cameraFollowingPlayerEvent = "CameraFollowingPlayer";
+    public static readonly string cameraWatchingTetrisEvent = "CameraFollowingTetris";
     
     // tags
     public static readonly string playerTag = "Player";

@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour {
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		animator = GetComponent<Animator>();
 		EventManager.StartListening(Constants.tetrisEvent, StopMoving);
-		EventManager.StartListening(Constants.platformerEvent, StartMoving);
+		EventManager.StartListening(Constants.cameraFollowingPlayerEvent, StartMoving);
 	}
 	
 	void Update() {
