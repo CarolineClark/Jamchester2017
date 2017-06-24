@@ -6,6 +6,7 @@ public class Constants {
     public static readonly string platformerEvent = "platformer-event";
     public static readonly string cameraFollowingPlayerEvent = "CameraFollowingPlayer";
     public static readonly string cameraWatchingTetrisEvent = "CameraFollowingTetris";
+    public static readonly string gameStartedEvent = "game-started";
     
     // tags
     public static readonly string playerTag = "Player";

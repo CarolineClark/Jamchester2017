@@ -22,8 +22,10 @@ public class PlayerController : MonoBehaviour {
 	private bool tetrisMode;
 	public Animator animator;
 	private bool flipped;
+	private bool canMove;
 
 	void Start () {
+		canMove = false;
 		tetrisMode = false;
 		friction = defaultFriction;
 		jumpSpeed = defaultJumpSpeed;
@@ -33,12 +35,11 @@ public class PlayerController : MonoBehaviour {
 		animator = GetComponent<Animator>();
 		EventManager.StartListening(Constants.tetrisEvent, StopMoving);
 		EventManager.StartListening(Constants.cameraFollowingPlayerEvent, StartMoving);
+		EventManager.StartListening(Constants.gameStartedEvent, StartMoving);
 	}
 	
 	void Update() {
-		if (tetrisMode) {
-			moveDirection = Vector3.zero;
-		} else {
+		if (canMove) {
 			moveDirection.x = GetXVelocity();
 			flipped = (moveDirection.x < 0 || (flipped && moveDirection.x <= 0));
 			if (characterController.isGrounded) {
@@ -48,6 +49,8 @@ public class PlayerController : MonoBehaviour {
 			} else {
 				moveDirection.y -= gravity * Time.deltaTime;
 			}
+		} else {
+			moveDirection = Vector3.zero;
 		}
 	}
 
@@ -95,10 +98,10 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void StopMoving(Hashtable h) {
-		tetrisMode = true;
+		canMove = false;
 	}
 
 	void StartMoving(Hashtable h) {
-		tetrisMode = false;
+		canMove = true;
 	}
 }
