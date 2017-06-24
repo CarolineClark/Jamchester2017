@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	private CharacterController characterController;
+	public SpriteRenderer spriteRenderer;
 	private readonly float defaultRunningSpeed = 10;
 	private readonly float defaultJumpSpeed = 8;
 	private readonly float slowRunningSpeed = 3;
@@ -19,6 +20,8 @@ public class PlayerController : MonoBehaviour {
 	private readonly float iceFriction = 0.1f;
 	private float friction;
 	private bool tetrisMode;
+	public Animator animator;
+	private bool flipped;
 
 	void Start () {
 		tetrisMode = false;
@@ -26,8 +29,10 @@ public class PlayerController : MonoBehaviour {
 		jumpSpeed = defaultJumpSpeed;
 		runningSpeed = defaultRunningSpeed;
 		characterController = GetComponent<CharacterController>();
+		spriteRenderer = GetComponent<SpriteRenderer>();
+		animator = GetComponent<Animator>();
 		EventManager.StartListening(Constants.tetrisEvent, StopMoving);
-		EventManager.StartListening(Constants.platformerEvent, StartMoving);
+		EventManager.StartListening(Constants.cameraFollowingPlayerEvent, StartMoving);
 	}
 	
 	void Update() {
@@ -35,6 +40,7 @@ public class PlayerController : MonoBehaviour {
 			moveDirection = Vector3.zero;
 		} else {
 			moveDirection.x = GetXVelocity();
+			flipped = (moveDirection.x < 0 || (flipped && moveDirection.x <= 0));
 			if (characterController.isGrounded) {
 				if (Input.GetButton("Jump")) {
 					moveDirection.y = jumpSpeed;
@@ -47,6 +53,8 @@ public class PlayerController : MonoBehaviour {
 
 	void FixedUpdate () {
 		characterController.Move(moveDirection * Time.deltaTime);
+		animator.SetBool("move", moveDirection.x != 0);
+		spriteRenderer.flipX = flipped;
 	}
 
 	float GetXVelocity() {
