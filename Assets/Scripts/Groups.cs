@@ -4,14 +4,14 @@ public class Groups : MonoBehaviour {
     float lastFall;
     readonly float TIME_TO_FALL = 10;
     private Spawner spawner;
-    private GameObject raycastDetecter;
     private bool hitGround = false;
+    private float speedOfFalling;
 
     void Start() {
         Debug.Log("starting");
         lastFall = Time.time;
         spawner = FindObjectOfType<Spawner>();
-        raycastDetecter = transform.Find("RaycastDetection").gameObject;
+        speedOfFalling = 3.0f;
     }
 
     void Update() {
@@ -31,7 +31,7 @@ public class Groups : MonoBehaviour {
     void OnCollisionEnter(Collision collision)
     {
         hitGround = true;
-        Debug.Log("OnColliderEnter hit");
+        // Debug.Log("OnColliderEnter hit");
     }
 
     void ControlBlock() {
@@ -45,5 +45,6 @@ public class Groups : MonoBehaviour {
             spawner.SpawnNext();
             enabled = false;
         }
+        transform.position += new Vector3(0, -1, 0) * Time.deltaTime * speedOfFalling;
     }
 }
