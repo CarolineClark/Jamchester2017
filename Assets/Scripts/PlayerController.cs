@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	private CharacterController characterController;
-	private readonly float defaultRunningSpeed = 15;
+	private readonly float defaultRunningSpeed = 10;
 	private readonly float defaultJumpSpeed = 8;
 	private readonly float slowRunningSpeed = 3;
 	private readonly float iceRunningSpeed = 50;
@@ -34,8 +34,7 @@ public class PlayerController : MonoBehaviour {
 		if (tetrisMode) {
 			moveDirection = Vector3.zero;
 		} else {
-			float vel = GetHorizontalAxis() * runningSpeed;
-			moveDirection.x = Mathf.Lerp(moveDirection.x, vel, friction * Time.deltaTime);
+			moveDirection.x = GetXVelocity();
 			if (characterController.isGrounded) {
 				if (Input.GetButton("Jump")) {
 					moveDirection.y = jumpSpeed;
@@ -48,6 +47,14 @@ public class PlayerController : MonoBehaviour {
 
 	void FixedUpdate () {
 		characterController.Move(moveDirection * Time.deltaTime);
+	}
+
+	float GetXVelocity() {
+		if (friction == 1) {
+			return GetHorizontalAxis() * runningSpeed;
+		} else {
+			return Mathf.Lerp(moveDirection.x, GetHorizontalAxis() * runningSpeed, friction * Time.deltaTime);
+		}
 	}
 
 	void OnTriggerStay(Collider other) {
