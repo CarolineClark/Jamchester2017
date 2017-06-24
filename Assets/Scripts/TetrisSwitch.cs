@@ -44,7 +44,7 @@ public class TetrisSwitch : MonoBehaviour {
 	}
 
 	void Reactivated(Hashtable h) {
-		// canBeFlicked = true;
-		// spriteRenderer.sprite = off;
+		canBeFlicked = true;
+		spriteRenderer.sprite = off;
 	}
 }
