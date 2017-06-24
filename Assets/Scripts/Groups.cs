@@ -9,12 +9,13 @@ public class Groups : MonoBehaviour {
     private bool hitGround = false;
     private float speedOfFalling = 3.0f;
     private GameObject triggerColliders;
+    private readonly string triggerChild = "TriggerColliders";
 
     void Start() {
         Debug.Log("starting");
         lastFall = Time.time;
         spawner = FindObjectOfType<Spawner>();
-        triggerColliders = transform.Find("TriggerColliders").gameObject;
+        triggerColliders = transform.Find(triggerChild).gameObject;
     }
 
     void Update() {
