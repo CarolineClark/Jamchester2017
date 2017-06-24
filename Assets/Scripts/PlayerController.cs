@@ -43,7 +43,6 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other) {
-		Debug.Log("collision entered");
 		string tag = other.gameObject.tag;
 		if (tag == Constants.slowBlockTag) {
 			runningSpeed = slowRunningSpeed;
