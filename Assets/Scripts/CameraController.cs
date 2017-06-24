@@ -11,7 +11,7 @@ public class CameraController : MonoBehaviour {
 
 	void Start () {
 		EventManager.StartListening(Constants.tetrisEvent, TetrisMode);	
-		EventManager.StartListening(Constants.platformerEvent, TetrisMode);	
+		EventManager.StartListening(Constants.platformerEvent, PlayerMode);	
 		currentMode = Mode.followPlayer;
 		player = GameObject.FindGameObjectWithTag(Constants.playerTag);
 		offset = new Vector3(0, 0, -10);
@@ -31,9 +31,16 @@ public class CameraController : MonoBehaviour {
 		currentMode = Mode.tetris;
 		// get level, and go to appropriate camera tetris point.
 		int level = TetrisLevelMessage.GetLevelFromHashtable(h);
+		Debug.Log("level = " + level);
+
+		if (level == -1) {
+			Debug.LogError("no location specified!");
+		}
 		// this should change to lerp.
+		if (level > tetrisLocations.Length) {
+			Debug.LogError("not enough tetris locations specified");
+		}
 		transform.position = tetrisLocations[level-1].transform.position;
-		
 	}
 
 	void PlayerMode(Hashtable h) {

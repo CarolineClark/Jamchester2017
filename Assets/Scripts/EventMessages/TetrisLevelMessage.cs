@@ -11,7 +11,7 @@ public class TetrisLevelMessage {
     }
 
     public static int GetLevelFromHashtable(Hashtable h) {
-		
+		Debug.Log(h);
         if (h != null && h.ContainsKey(LEVEL_KEY)) {
             return (int) h[LEVEL_KEY];
         }

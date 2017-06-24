@@ -9,9 +9,9 @@ public class BlockController : MonoBehaviour {
 		spawner = FindObjectOfType<Spawner>();
 	}
 
-	void Update () {
-		if (Input.GetKeyDown(KeyCode.DownArrow)) {
-			spawner.spawnNext();
-		}
-	}
+	// void Update () {
+	// 	if (Input.GetKeyDown(KeyCode.DownArrow)) {
+	// 		spawner.SpawnNext();
+	// 	}
+	// }
 }

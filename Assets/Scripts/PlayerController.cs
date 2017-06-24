@@ -18,23 +18,31 @@ public class PlayerController : MonoBehaviour {
 	private readonly float defaultFriction = 1f;
 	private readonly float iceFriction = 0.1f;
 	private float friction;
+	private bool tetrisMode;
 
 	void Start () {
+		tetrisMode = false;
 		friction = defaultFriction;
 		jumpSpeed = defaultJumpSpeed;
 		runningSpeed = defaultRunningSpeed;
 		characterController = GetComponent<CharacterController>();
+		EventManager.StartListening(Constants.tetrisEvent, StopMoving);
+		EventManager.StartListening(Constants.platformerEvent, StartMoving);
 	}
 	
 	void Update() {
-		float vel = GetHorizontalAxis() * runningSpeed;
-		moveDirection.x = Mathf.Lerp(moveDirection.x, vel, friction * Time.deltaTime);
-		if (characterController.isGrounded) {
-			if (Input.GetButton("Jump")) {
-				moveDirection.y = jumpSpeed;
-			}
+		if (tetrisMode) {
+			moveDirection = Vector3.zero;
 		} else {
-			moveDirection.y -= gravity * Time.deltaTime;
+			float vel = GetHorizontalAxis() * runningSpeed;
+			moveDirection.x = Mathf.Lerp(moveDirection.x, vel, friction * Time.deltaTime);
+			if (characterController.isGrounded) {
+				if (Input.GetButton("Jump")) {
+					moveDirection.y = jumpSpeed;
+				}
+			} else {
+				moveDirection.y -= gravity * Time.deltaTime;
+			}
 		}
 	}
 
@@ -69,5 +77,13 @@ public class PlayerController : MonoBehaviour {
 	float GetHorizontalAxis() {
 		float velocity = Input.GetAxis("Horizontal");
 		return invertedControls ? -1 * velocity : velocity;
+	}
+
+	void StopMoving(Hashtable h) {
+		tetrisMode = true;
+	}
+
+	void StartMoving(Hashtable h) {
+		tetrisMode = false;
 	}
 }
