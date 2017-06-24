@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour {
 	private bool canMove;
 
 	void Start () {
-		canMove = false;
+		canMove = true;
 		tetrisMode = false;
 		friction = defaultFriction;
 		jumpSpeed = defaultJumpSpeed;
