@@ -15,4 +15,5 @@ public class Constants {
     public static readonly string teleportBlockTag = "teleport-block";
     public static readonly string iceBlockTag = "ice-block";
     public static readonly string bigJumpBlockTag = "big-jump-block";
+    public static readonly string backgroundTag = "background";
 }

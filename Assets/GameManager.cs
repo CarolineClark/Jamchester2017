@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
 	public void EndTitleScreen() {
 		Debug.Log(titleScreen);
 		titleScreen.gameObject.SetActive(false);
-		// send event that game has started
 		EventManager.TriggerEvent(Constants.gameStartedEvent);
 	}
 }
