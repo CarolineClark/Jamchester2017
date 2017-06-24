@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour {
 		characterController.Move(moveDirection * Time.deltaTime);
 	}
 
-	void OnTriggerEnter(Collider other) {
+	void OnTriggerStay(Collider other) {
 		string tag = other.gameObject.tag;
 		if (tag == Constants.slowBlockTag) {
 			runningSpeed = slowRunningSpeed;
