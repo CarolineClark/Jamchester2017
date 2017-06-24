@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour {
 
 	private CharacterController characterController;
 	private float maxSpeed = 10;
-	private float jumpSpeed = 10;
+	private float jumpSpeed = 8;
 	private Vector3 moveDirection = Vector3.zero;
 	private float gravity = 9.8F;
 
@@ -16,12 +16,14 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	void Update() {
-		moveDirection.y -= gravity * Time.deltaTime;
+		
 		moveDirection.x = Input.GetAxis("Horizontal") * maxSpeed;
 		if (characterController.isGrounded) {
 			if (Input.GetButton("Jump")) {
 				moveDirection.y = jumpSpeed;
 			}
+		} else {
+			moveDirection.y -= gravity * Time.deltaTime;
 		}
 	}
 
