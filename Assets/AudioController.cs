@@ -2,15 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioController : MonoBehaviour {
+public class PlaySound : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public AudioClip lever;
+    AudioSource audio;
+    void Start()
+    {
+        audio = GetComponent<AudioSource>();
+    }
+
+    void OnTriggerEnter()
+    {
+        {
+            audio.PlayOneShot(lever);
+
+        }
+    }
 }
