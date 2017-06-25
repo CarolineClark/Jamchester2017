@@ -17,10 +17,18 @@ public class GameManager : MonoBehaviour
 			Destroy(gameObject);    
 		DontDestroyOnLoad(gameObject);
 	}
+
+	void Start() {
+		EventManager.StartListening(Constants.gameEndedEvent, ShowFinalScreen);
+	}
 	
 	public void EndTitleScreen() {
 		Debug.Log(titleScreen);
 		titleScreen.gameObject.SetActive(false);
 		EventManager.TriggerEvent(Constants.gameStartedEvent);
+	}
+
+	private void ShowFinalScreen(Hashtable h) {
+		Debug.Log("game ended");
 	}
 }
