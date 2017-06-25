@@ -21,11 +21,11 @@ public class Groups : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) {
             transform.position += new Vector3(-1, 0, 0);
-        } else if (Input.GetKeyDown(KeyCode.RightArrow)) {
+        } else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) {
             transform.position += new Vector3(1, 0, 0);
-        } else if (Input.GetKeyDown(KeyCode.UpArrow)) {
+        } else if (Input.GetKeyDown(KeyCode.UpArrow) && Input.GetKeyDown(KeyCode.W)) {
             transform.Rotate(0, 0, -90);
         } else if (hitGround) {
             rb.isKinematic = true;
