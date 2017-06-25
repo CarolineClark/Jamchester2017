@@ -22,8 +22,8 @@ public class TetrisSwitch : MonoBehaviour {
 		showE.SetActive(false);
 	}
 
-	void OnTriggerEnter(Collider other) {
-		if (other.gameObject.tag == Constants.playerTag) {
+	void OnTriggerStay(Collider other) {
+		if (canBeFlicked && other.gameObject.tag == Constants.playerTag) {
 			playerInRange = true;
 			showE.SetActive(true);
 		}
@@ -52,6 +52,5 @@ public class TetrisSwitch : MonoBehaviour {
 	void Reactivated(Hashtable h) {
 		canBeFlicked = true;
 		spriteRenderer.sprite = off;
-		showE.SetActive(true);
 	}
 }
