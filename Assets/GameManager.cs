@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 	private int level = 1;
 	public Image titleScreen;
 	public Image endScreen;
+	public Light light;
 
 	void Awake() {
 		if (instance == null)
@@ -22,10 +23,12 @@ public class GameManager : MonoBehaviour
 	void Start() {
 		EventManager.StartListening(Constants.gameEndedEvent, ShowFinalScreen);
 		endScreen.gameObject.SetActive(false);
+		light.enabled = false;
 	}
 	
 	public void EndTitleScreen() {
 		Debug.Log("ending title screen");
+		light.enabled = true;
 		titleScreen.gameObject.SetActive(false);
 		EventManager.TriggerEvent(Constants.gameStartedEvent);
 	}
