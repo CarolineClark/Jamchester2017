@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour {
 	private CharacterController characterController;
 	public SpriteRenderer spriteRenderer;
 	private readonly float defaultRunningSpeed = 10;
-	private readonly float defaultJumpSpeed = 8;
+	private readonly float defaultJumpSpeed = 9f;
 	private readonly float slowRunningSpeed = 3;
 	private readonly float iceRunningSpeed = 50;
 	private readonly float bigJumpSpeed = 15;
