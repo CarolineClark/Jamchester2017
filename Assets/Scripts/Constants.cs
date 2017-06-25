@@ -7,6 +7,7 @@ public class Constants {
     public static readonly string cameraFollowingPlayerEvent = "CameraFollowingPlayer";
     public static readonly string cameraWatchingTetrisEvent = "CameraFollowingTetris";
     public static readonly string gameStartedEvent = "game-started";
+    public static readonly string gameEndedEvent = "game-ended";
     
     // tags
     public static readonly string playerTag = "Player";
