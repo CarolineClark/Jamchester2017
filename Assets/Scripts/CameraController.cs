@@ -9,8 +9,8 @@ public class CameraController : MonoBehaviour {
 	private GameObject player;
 	private Vector3 offset;
 	private float transitionStartTime;
-	private float timeToTransitionToTetris = 2;
-	private float timeToTransitionToPlayer = 3;
+	private float timeToTransitionToTetris = 1;
+	private float timeToTransitionToPlayer = 1;
 	private Vector3 endPosition;
 	int currentLevel;
 
