@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour {
 	private float friction;
 	private bool tetrisMode;
 	public Animator animator;
-	private bool flipped;
+	public bool flipped;
 	private bool canMove;
 
 	void Start () {

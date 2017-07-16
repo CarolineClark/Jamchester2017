@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Assertions;
 
 public class TetrisSwitch : MonoBehaviour {
 	private bool playerInRange;
@@ -13,7 +14,16 @@ public class TetrisSwitch : MonoBehaviour {
 	private GameObject showE;
 	private string childString = "Press E";
 
+	[SerializeField]	private AudioClip lever;
+	private AudioSource audioSource;
+
+	private void Awake()
+	{
+	Assert.IsNotNull(lever, "Fool of a Took! You don't have the lever sound attached to this gameobject");
+	}
+
 	void Start () {
+		audioSource = GetComponent<AudioSource>();
 		playerInRange = false;
 		canBeFlicked = true;
 		EventManager.StartListening(Constants.platformerEvent, Reactivated);
@@ -35,14 +45,15 @@ public class TetrisSwitch : MonoBehaviour {
 			showE.SetActive(false);
 		}
 	}
-	
+
 	void Update () {
 		if (FlickedSwitch()) {
+			audioSource.PlayOneShot(lever);
 			EventManager.TriggerEvent(Constants.tetrisEvent, TetrisLevelMessage.CreateHashtable(level));
 			canBeFlicked = false;
 			spriteRenderer.sprite = on;
 			showE.SetActive(false);
-		}	
+		}
 	}
 
 	bool FlickedSwitch() {

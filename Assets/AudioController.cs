@@ -1,20 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class PlaySound : MonoBehaviour {
 
-    public AudioClip lever;
-    AudioSource audio;
+
+	[SerializeField]	private AudioClip lever;
+
+	private AudioSource audioSource;
+	public PlayerController targetScript;
+
+	private void Awake()
+	{
+		Assert.IsNotNull(lever);
+	}
+
     void Start()
     {
-        audio = GetComponent<AudioSource>();
+				targetScript = GetComponent<PlayerController>();
+				audioSource = GetComponent<AudioSource>();
     }
 
-    void OnTriggerEnter()
+    void Update()
     {
+			if(targetScript.flipped == true)
         {
-            audio.PlayOneShot(lever);
+            audioSource.PlayOneShot(lever);
 
         }
     }
